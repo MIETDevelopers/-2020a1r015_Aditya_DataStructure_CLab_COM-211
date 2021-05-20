@@ -1,0 +1,120 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct array
+{
+    int *arr;
+    int size;
+    int length;
+};
+void insertion(struct array *q, int index, int x)
+{
+    int i;
+    if (q->size < q->length)
+    {
+        for (i = q->size - 1; i >= index; i--)
+        {
+            q->arr[i + 1] = q->arr[i];
+        }
+        q->arr[i + 1] = x;
+        q->size++;
+    }
+    printf("\n\n\n----------------------------------------------------------------------------------------------------DONE;)\n\n\n");
+}
+void delete (struct array *q, int index)
+{
+
+    for (int i = index; i < (q->size) - 1; i++)
+    {
+        q->arr[i] = q->arr[i + 1];
+    }
+    q->size--;
+    printf("\n\n\n----------------------------------------------------------------------------------------------------DONE;)\n\n\n");
+}
+int search(struct array *q, int key)
+{
+    for (int i = 0; i < q->size; i++)
+    {
+        if (key == q->arr[i])
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+void display(struct array *q)
+{
+    printf("\nNOW PRINTING\n");
+    for (int i = 0; i < q->size; i++)
+    {
+        printf("%d\n", q->arr[i]);
+    }
+    printf("Current size:%d\n", q->size);
+}
+int main()
+{
+    struct array a;
+
+    printf("Enter Total size of array:\n");
+    scanf("%d", &a.length);
+    a.arr = (int *)malloc(sizeof(int) * a.length);
+    printf("Enter the number of elemnts u want to store:\n");
+    scanf("%d", &a.size);
+    printf("Enter Elements:\n");
+    for (int i = 0; i < a.size; i++)
+    {
+        scanf("%d", &a.arr[i]);
+    }
+    int c;
+    do
+    {
+        printf("\n                                                             Menu:\n");
+        printf("                                                             1.Insertion\n");
+        printf("                                                             2.Deletion\n");
+        printf("                                                             3.Linear Search\n");
+        printf("                                                             4.Display\n");
+        printf("                                                             5.EXIT\n\n");
+        scanf("%d", &c);
+        if (c == 1)
+        {
+            int in, n;
+            printf("What elemnt u want to insert:");
+            scanf("%d", &n);
+            printf("At what Index?\n");
+            scanf("%d", &in);
+            insertion(&a, in, n);
+        }
+        else if (c == 2)
+        {
+            int in;
+            printf("At what index u want to delete:\n");
+            scanf("%d", &in);
+            delete (&a, in);
+        }
+        else if (c == 3)
+        {
+            int key;
+            printf("what element u want to search:\n");
+            scanf("%d", &key);
+            key = search(&a, key);
+            if (key == -1)
+            {
+                printf("No elemt was found\n");
+            }
+            else
+            {
+                printf("Found at index:%d\n", key);
+            }
+        }
+        else if (c == 4)
+        {
+            display(&a);
+        }
+        else
+        {
+            printf("\nWrong input Try again\n");
+        }
+
+    } while (c < 5);
+    free(a.arr);
+    return 0;
+}
