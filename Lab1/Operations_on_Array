@@ -6,68 +6,67 @@ struct array
     int size;
     int length;
 };
-void insertion(struct array *q, int index, int x)
+void insertion(struct array *list, int index, int element)
 {
     int i;
-    if (q->size < q->length)
+    if (list->size < list->length)
     {
-        for (i = q->size - 1; i >= index; i--)
+        for (i = list->size - 1; i >= index; i--)
         {
-            q->arr[i + 1] = q->arr[i];
+            list->arr[i + 1] = list->arr[i];
         }
-        q->arr[i + 1] = x;
-        q->size++;
+        list->arr[i + 1] = element;
+        list->size++;
     }
     printf("\n\n\n----------------------------------------------------------------------------------------------------DONE;)\n\n\n");
 }
-void delete (struct array *q, int index)
+void delete (struct array *list, int index)
 {
 
-    for (int i = index; i < (q->size) - 1; i++)
+    for (int i = index; i < (list->size) - 1; i++)
     {
-        q->arr[i] = q->arr[i + 1];
+        list->arr[i] = list->arr[i + 1];
     }
-    q->size--;
+    list->size--;
     printf("\n\n\n----------------------------------------------------------------------------------------------------DONE;)\n\n\n");
 }
-int search(struct array *q, int key)
+int search(struct array *list, int key)
 {
-    for (int i = 0; i < q->size; i++)
+    for (int i = 0; i < list->size; i++)
     {
-        if (key == q->arr[i])
+        if (key == list->arr[i])
         {
             return i;
         }
     }
     return -1;
 }
-void display(struct array *q)
+void display(struct array *list)
 {
     printf("\nNOW PRINTING\n");
-    for (int i = 0; i < q->size; i++)
+    for (int i = 0; i < list->size; i++)
     {
-        printf("%d\n", q->arr[i]);
+        printf("%d\n", list->arr[i]);
     }
-    printf("Current size:%d\n", q->size);
+    printf("Current size:%d\n", list->size);
 }
 int main()
 {
-    struct array a;
-
+    struct array listA;
     printf("Enter Total size of array:\n");
-    scanf("%d", &a.length);
-    a.arr = (int *)malloc(sizeof(int) * a.length);
+    scanf("%d", &listA.length);
+    listA.arr = (int *)malloc(sizeof(int) * listA.length);
     printf("Enter the number of elemnts u want to store:\n");
-    scanf("%d", &a.size);
+    scanf("%d", &listA.size);
     printf("Enter Elements:\n");
-    for (int i = 0; i < a.size; i++)
+    for (int i = 0; i < listA.size; i++)
     {
-        scanf("%d", &a.arr[i]);
+        scanf("%d", &listA.arr[i]);
     }
     int c;
     do
     {
-        printf("\n                                                             Menu:\n");
+        printf("\n                                                           Menu:\n");
         printf("                                                             1.Insertion\n");
         printf("                                                             2.Deletion\n");
         printf("                                                             3.Linear Search\n");
@@ -76,26 +75,26 @@ int main()
         scanf("%d", &c);
         if (c == 1)
         {
-            int in, n;
+            int index, element;
             printf("What elemnt u want to insert:");
-            scanf("%d", &n);
+            scanf("%d", &element);
             printf("At what Index?\n");
-            scanf("%d", &in);
-            insertion(&a, in, n);
+            scanf("%d", &index);
+            insertion(&listA, index, element);
         }
         else if (c == 2)
         {
-            int in;
+            int index;
             printf("At what index u want to delete:\n");
-            scanf("%d", &in);
-            delete (&a, in);
+            scanf("%d", &index);
+            delete (&listA, index);
         }
         else if (c == 3)
         {
             int key;
             printf("what element u want to search:\n");
             scanf("%d", &key);
-            key = search(&a, key);
+            key = search(&listA, key);
             if (key == -1)
             {
                 printf("No elemt was found\n");
@@ -107,14 +106,14 @@ int main()
         }
         else if (c == 4)
         {
-            display(&a);
+            display(&listA);
         }
-        else
+        else if (c != 5)
         {
-            printf("\nWrong input Try again\n");
+            printf("\nWrong input Try again 😠\n");
         }
 
-    } while (c < 5);
-    free(a.arr);
+    } while (c != 5);
+    free(listA.arr);
     return 0;
 }
