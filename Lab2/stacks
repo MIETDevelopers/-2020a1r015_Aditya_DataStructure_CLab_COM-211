@@ -1,0 +1,121 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+struct stack
+{
+    int size;
+    int top;
+    int *arr;
+};
+bool isemp(struct stack *s)
+{
+    if (s->top == -1)
+    {
+        return true;
+    }
+    return false;
+}
+bool isful(struct stack *s)
+{
+    if (s->top == s->size - 1)
+    {
+        return true;
+    }
+    return false;
+}
+bool push(struct stack *s, int element)
+{
+    if (isful(s))
+    {
+        return false;
+    }
+    s->top++;
+    s->arr[s->top] = element;
+    return true;
+}
+bool pop(struct stack *s)
+{
+    if (isemp(s))
+    {
+        return false;
+    }
+    s->top--;
+    return true;
+}
+void display(struct stack *s)
+{
+    printf("\n\n");
+    for (int i = s->top; i >= 0; i--)
+    {
+        printf("|_%d_|\n", s->arr[i]);
+    }
+    printf("\n\n");
+}
+void create(struct stack *s, int e)
+{
+    // s->top = 0;
+    printf("NOW ENTER ELEMENTS\n");
+    for (int i = 0; i < e; i++)
+    {
+        scanf("%d", &s->arr[i]);
+        s->top++;
+    }
+}
+int main()
+{
+    struct stack s1;
+    printf("Enter size of stack:");
+    scanf("%d", &s1.size);
+    if (s1.size <= 0)
+    {
+        printf("invalid input\n");
+        return 0;
+    }
+    s1.arr = (int *)malloc(sizeof(int) * s1.size);
+    s1.top = -1;
+    int n;
+    printf("How many elements:");
+    scanf("%d", &n);
+    create(&s1, n);
+    int c;
+    do
+    {
+        printf("MENU:\n");
+        printf("1.Push\n");
+        printf("2.Pop\n");
+        printf("3.Display\n");
+        printf("4.EXIT\n");
+        scanf("%d", &c);
+        if (c == 1)
+        {
+            int x;
+            printf("ENTER ELEMENT:\n");
+            scanf("%d", &x);
+            if (push(&s1, x))
+            {
+                printf("----------------DONE---------------------------------\n");
+            }
+            else
+            {
+                printf("************ERROR**************\n");
+            }
+        }
+        else if (c == 2)
+        {
+            if (pop(&s1))
+            {
+                printf("----------------DONE---------------------------------\n");
+            }
+            else
+            {
+                printf("************ERROR**************\n");
+            }
+        }
+        else if (c == 3)
+        {
+            display(&s1);
+        }
+
+    } while (c < 4);
+    return 0;
+}
