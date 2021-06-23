@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
+struct stack
+{
+    int maxsize;
+    int top;
+    char *s;
+};
+bool isemp(struct stack *s)
+{
+    if (s->top == -1)
+    {
+        return true;
+    }
+    return false;
+}
+bool isful(struct stack *s)
+{
+    if (s->top == s->maxsize - 1)
+    {
+        return true;
+    }
+    return false;
+}
+bool push(struct stack *s, char e)
+{
+    if (isful(s))
+    {
+        return false;
+    }
+    s->top++;
+    s->s[s->top] = e;
+    return true;
+}
+bool pop(struct stack *s)
+{
+    if (isemp(s))
+    {
+        return false;
+    }
+    s->top--;
+    return true;
+}
+int main()
+{
+    struct stack Stack1;
+    Stack1.top = 0;
+    int size_of_exp;
+    char exp[100];
+    printf("Now enter expression:");
+    scanf("%s", exp);
+    size_of_exp = strlen(exp);
+    Stack1.maxsize = size_of_exp;
+    Stack1.s = (char *)malloc(sizeof(char) * size_of_exp);
+    for (int i = 0; i < size_of_exp; i++)
+    {
+        if (exp[i] == '{' || exp[i] == '[' || exp[i] == '(')
+        {
+            push(&Stack1, exp[i]);
+            continue;
+        }
+        if (exp[i] == '}' || exp[i] == ']' || exp[i] == ')')
+        {
+            if ((Stack1.s[Stack1.top] == '{' && exp[i] == '}') || (Stack1.s[Stack1.top] == '(' && exp[i] == ')') || (Stack1.s[Stack1.top] == '[' && exp[i] == ']'))
+            {
+                pop(&Stack1);
+            }
+            else
+            {
+                printf("Unbalanced.\n");
+                return 0;
+            }
+        }
+    }
+    if (Stack1.top == 0)
+    {
+        printf("Balanced.\n");
+    }
+    else
+    {
+        printf("Unbalanced.\n");
+    }
+    return 0;
+}
