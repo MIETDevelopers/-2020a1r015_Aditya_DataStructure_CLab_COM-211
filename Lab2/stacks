@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <limits.h>
 struct stack
 {
     int size;
@@ -23,37 +24,52 @@ bool isful(struct stack *s)
     }
     return false;
 }
-bool push(struct stack *s, int element)
+void push(struct stack *s, int element)
 {
     if (isful(s))
     {
-        return false;
+        printf("Stack is Full.\n");
     }
-    s->top++;
-    s->arr[s->top] = element;
-    return true;
+    else
+    {
+        s->top++;
+        s->arr[s->top] = element;
+    }
 }
-bool pop(struct stack *s)
+int pop(struct stack *s)
 {
+    int element_removed = INT_MIN;
     if (isemp(s))
     {
-        return false;
+        printf("Stack is Empty.\n");
     }
-    s->top--;
-    return true;
+    else
+    {
+        element_removed = s->arr[s->top];
+        s->top--;
+    }
+    return element_removed;
 }
 void display(struct stack *s)
 {
-    printf("\n\n");
-    for (int i = s->top; i >= 0; i--)
+    if (isemp(s))
     {
-        printf("|_%d_|\n", s->arr[i]);
+        printf("Stack is Empty.\n");
     }
-    printf("\n\n");
+    else
+    {
+
+        printf("\n\n");
+        for (int i = s->top; i >= 0; i--)
+        {
+            printf("|_%d_|\n", s->arr[i]);
+        }
+        printf("\n\n");
+    }
 }
 void create(struct stack *s, int e)
 {
-    // s->top = 0;
+
     printf("NOW ENTER ELEMENTS\n");
     for (int i = 0; i < e; i++)
     {
@@ -68,7 +84,7 @@ int main()
     scanf("%d", &s1.size);
     if (s1.size <= 0)
     {
-        printf("invalid input\n");
+        printf("invalid inpu\n");
         return 0;
     }
     s1.arr = (int *)malloc(sizeof(int) * s1.size);
@@ -86,36 +102,33 @@ int main()
         printf("3.Display\n");
         printf("4.EXIT\n");
         scanf("%d", &c);
-        if (c == 1)
+        switch (c)
         {
+        case 1:;
             int x;
             printf("ENTER ELEMENT:\n");
             scanf("%d", &x);
-            if (push(&s1, x))
-            {
-                printf("----------------DONE---------------------------------\n");
-            }
-            else
-            {
-                printf("************ERROR**************\n");
-            }
-        }
-        else if (c == 2)
-        {
-            if (pop(&s1))
-            {
-                printf("----------------DONE---------------------------------\n");
-            }
-            else
-            {
-                printf("************ERROR**************\n");
-            }
-        }
-        else if (c == 3)
-        {
-            display(&s1);
-        }
+            push(&s1, x);
+            break;
 
+        case 2:;
+            int temp = pop(&s1);
+            if (temp != INT_MIN)
+            {
+                printf("Popped Element:%d\n", temp);
+                printf("-----DONE-----\n");
+            }
+            else
+            {
+                printf("*****ERROR*****\n");
+            }
+            break;
+
+        case 3:
+            display(&s1);
+            break;
+        }
     } while (c < 4);
+
     return 0;
 }
