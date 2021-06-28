@@ -2,13 +2,14 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-struct stack
+#include <limits.h>
+struct STACK
 {
-    int maxsize;
+    int size;
     int top;
-    char *s;
+    char *arr;
 };
-bool isemp(struct stack *s)
+bool isemp(struct STACK *s)
 {
     if (s->top == -1)
     {
@@ -16,44 +17,51 @@ bool isemp(struct stack *s)
     }
     return false;
 }
-bool isful(struct stack *s)
+bool isful(struct STACK *s)
 {
-    if (s->top == s->maxsize - 1)
+    if (s->top == s->size - 1)
     {
         return true;
     }
     return false;
 }
-bool push(struct stack *s, char e)
+void push(struct STACK *s, char element)
 {
     if (isful(s))
     {
-        return false;
+        printf("Stack is Full.\n");
     }
-    s->top++;
-    s->s[s->top] = e;
-    return true;
+    else
+    {
+        s->top++;
+        s->arr[s->top] = element;
+    }
 }
-bool pop(struct stack *s)
+int pop(struct STACK *s)
 {
+    int element_removed = INT_MIN;
     if (isemp(s))
     {
-        return false;
+        printf("Stack is Empty.\n");
     }
-    s->top--;
-    return true;
+    else
+    {
+        element_removed = s->arr[s->top];
+        s->top--;
+    }
+    return element_removed;
 }
 int main()
 {
-    struct stack Stack1;
+    struct STACK Stack1;
     Stack1.top = 0;
     int size_of_exp;
     char exp[100];
     printf("Now enter expression:");
     scanf("%s", exp);
     size_of_exp = strlen(exp);
-    Stack1.maxsize = size_of_exp;
-    Stack1.s = (char *)malloc(sizeof(char) * size_of_exp);
+    Stack1.size = size_of_exp;
+    Stack1.arr = (char *)malloc(sizeof(char) * size_of_exp);
     for (int i = 0; i < size_of_exp; i++)
     {
         if (exp[i] == '{' || exp[i] == '[' || exp[i] == '(')
@@ -63,7 +71,7 @@ int main()
         }
         if (exp[i] == '}' || exp[i] == ']' || exp[i] == ')')
         {
-            if ((Stack1.s[Stack1.top] == '{' && exp[i] == '}') || (Stack1.s[Stack1.top] == '(' && exp[i] == ')') || (Stack1.s[Stack1.top] == '[' && exp[i] == ']'))
+            if ((Stack1.arr[Stack1.top] == '{' && exp[i] == '}') || (Stack1.arr[Stack1.top] == '(' && exp[i] == ')') || (Stack1.arr[Stack1.top] == '[' && exp[i] == ']'))
             {
                 pop(&Stack1);
             }
