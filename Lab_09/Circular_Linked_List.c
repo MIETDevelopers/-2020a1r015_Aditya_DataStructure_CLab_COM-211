@@ -1,4 +1,3 @@
-//*Written by Aditya Kotwal
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -12,20 +11,26 @@ struct node
 } *head = NULL;
 int Lsearch(int data)
 {
-    struct node *traverse = head;
     int position = -1;
     int i = 1;
-    do
+    struct node *traverse = head;
+    if (head->data == data)
     {
-        if (traverse->data == data)
+        position = 1;
+    }
+    else
+    {
+        do
         {
-            position = i;
-            break;
-        }
-        i++;
-        traverse = traverse->next;
-    } while (traverse != head);
-
+            if (traverse->data == data)
+            {
+                position = i;
+                break;
+            }
+            i++;
+            traverse = traverse->next;
+        } while (traverse != head);
+    }
     return position;
 }
 void insert(int element)
@@ -56,37 +61,50 @@ int delete (int element)
 {
 
     int removed = INT_MIN;
-    int pos = Lsearch(element);
-    if (pos != -1)
+    if (head != NULL)
     {
-        if (pos == 1)
-        {
-            struct node *traverse = head;
-            removed = head->data;
-            //Now all this code does is update last node pointing to head i.e make last node point to head->next cuz we shifting the head
-            do
-            {
-                traverse = traverse->next;
-            } while (traverse->next != head);
-            //*Now traverse is on last node
-            traverse->next = head->next;
-            traverse = head;
-            head = head->next;
-            free(traverse);
-        }
-        else
-        {
 
-            struct node *prev = NULL, *next = head;
-            while (pos > 1)
+        int pos = Lsearch(element);
+        if (pos != -1)
+        {
+            if (pos == 1)
             {
-                prev = next;
-                next = next->next;
-                pos--;
+                if (head->next == head)
+                {
+                    removed = head->data;
+                    free(head);
+                    head = NULL;
+                }
+                else
+                {
+                    struct node *traverse = head;
+                    removed = head->data;
+                    //Now all this code does is update last node pointing to head i.e make last node point to head->next cuz we shifting the head
+                    do
+                    {
+                        traverse = traverse->next;
+                    } while (traverse->next != head);
+                    //*Now traverse is on last node
+                    head = head->next;
+                    traverse->next = head->next;
+                    traverse = head;
+                    free(traverse);
+                }
             }
-            removed = next->data;
-            prev->next = next->next;
-            free(next);
+            else
+            {
+
+                struct node *prev = NULL, *next = head;
+                while (pos > 1)
+                {
+                    prev = next;
+                    next = next->next;
+                    pos--;
+                }
+                removed = next->data;
+                prev->next = next->next;
+                free(next);
+            }
         }
     }
     return removed;
@@ -111,17 +129,6 @@ void print()
             traverse = traverse->next;
         } while (traverse != head);
         printf("[First Node]");
-        // **2ND WAY
-        // int count = 0;
-        // while (traverse != head || count == 0)
-        // {
-
-        //     printf("(%d)|_%d_|->", count, traverse->data);
-
-        //     count++;
-        //     traverse = traverse->next;
-        // }
-        // printf("[First Node]");
     }
 
     printf("\n");
@@ -144,13 +151,21 @@ int main()
         case 1:;
             int element;
             printf("Enter Element:");
-            scanf("%d", &element);
+            if (scanf("%d", &element) == false)
+            {
+                printf("Invalid Input!\n");
+                return 0;
+            }
             insert(element);
             break;
         case 2:;
             int el;
             printf("Delete What?\n");
-            scanf("%d", &el);
+            if (scanf("%d", &el) == false)
+            {
+                printf("Invalid Input!\n");
+                return 0;
+            }
             int x = delete (el);
             if (x != INT_MIN)
             {
@@ -158,14 +173,18 @@ int main()
             }
             else
             {
-                printf("No element Like that found");
+                printf("No element\n");
             }
             break;
 
         case 3:;
             int e;
             printf("Find What?\n");
-            scanf("%d", &e);
+            if (scanf("%d", &e) == false)
+            {
+                printf("Invalid Input\n");
+                return 0;
+            }
             int temp = Lsearch(e);
             if (temp != -1)
             {
