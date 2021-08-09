@@ -1,4 +1,3 @@
-//*Written by Aditya Kotwal
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -56,7 +55,6 @@ void insert(int element)
 }
 int delete (int element)
 {
-
     int removed = INT_MIN;
     int pos = Lsearch(element);
     if (pos != -1)
@@ -66,8 +64,17 @@ int delete (int element)
         {
             struct node *t = head;
             removed = head->data;
-            head = head->next;
-            head->prev = NULL;
+            if (t->next != NULL)
+            {
+
+                head = head->next;
+                head->prev = NULL;
+            }
+            else
+            {
+                head = NULL;
+            }
+
             free(t);
         }
         else
@@ -167,13 +174,29 @@ int main()
         case 1:;
             int element;
             printf("Enter Element:");
-            scanf("%d", &element);
-            insert(element);
+            if (scanf("%d", &element) == false)
+            {
+                printf("Invalid Input!!\n");
+                return 0;
+            }
+            if (element && 1)
+            {
+                insert(element);
+            }
+            else
+            {
+                printf("no\n");
+            }
+
             break;
         case 2:;
             int el;
             printf("Delete What?\n");
-            scanf("%d", &el);
+            if (scanf("%d", &el) == false)
+            {
+                printf("Invalid Input!!\n");
+                return 0;
+            }
             int x = delete (el);
             if (x != INT_MIN)
             {
@@ -181,14 +204,18 @@ int main()
             }
             else
             {
-                printf("No element Like that found");
+                printf("No element");
             }
             break;
 
         case 3:;
             int e;
             printf("Find What?\n");
-            scanf("%d", &e);
+            if (scanf("%d", &e) == false)
+            {
+                printf("Invalid Input!!\n");
+                return 0;
+            }
             int temp = Lsearch(e);
             if (temp != -1)
             {
