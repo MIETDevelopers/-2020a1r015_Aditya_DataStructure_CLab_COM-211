@@ -1,4 +1,3 @@
-//*Written by Aditya Kotwal
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -114,7 +113,11 @@ int main()
         case 1:;
             int element;
             printf("Enter Element:");
-            scanf("%d", &element);
+            if (scanf("%d", &element) == false)
+            {
+                printf("Invalid Input!!\n");
+                return 0;
+            }
             push(element);
             break;
         case 2:;
