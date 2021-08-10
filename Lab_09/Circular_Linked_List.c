@@ -14,23 +14,17 @@ int Lsearch(int data)
     int position = -1;
     int i = 1;
     struct node *traverse = head;
-    if (head->data == data)
+    do
     {
-        position = 1;
-    }
-    else
-    {
-        do
+        if (traverse->data == data)
         {
-            if (traverse->data == data)
-            {
-                position = i;
-                break;
-            }
-            i++;
-            traverse = traverse->next;
-        } while (traverse != head);
-    }
+            position = i;
+            break;
+        }
+        i++;
+        traverse = traverse->next;
+    } while (traverse != head);
+
     return position;
 }
 void insert(int element)
@@ -59,11 +53,9 @@ void insert(int element)
 }
 int delete (int element)
 {
-
     int removed = INT_MIN;
     if (head != NULL)
     {
-
         int pos = Lsearch(element);
         if (pos != -1)
         {
@@ -85,9 +77,9 @@ int delete (int element)
                         traverse = traverse->next;
                     } while (traverse->next != head);
                     //*Now traverse is on last node
-                    head = head->next;
                     traverse->next = head->next;
                     traverse = head;
+                    head = head->next;
                     free(traverse);
                 }
             }
