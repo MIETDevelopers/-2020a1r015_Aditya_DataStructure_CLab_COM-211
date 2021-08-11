@@ -14,16 +14,19 @@ int Lsearch(int data)
     int position = -1;
     int i = 1;
     struct node *traverse = head;
-    do
+    if (head != NULL)
     {
-        if (traverse->data == data)
+        do
         {
-            position = i;
-            break;
-        }
-        i++;
-        traverse = traverse->next;
-    } while (traverse != head);
+            if (traverse->data == data)
+            {
+                position = i;
+                break;
+            }
+            i++;
+            traverse = traverse->next;
+        } while (traverse != head);
+    }
 
     return position;
 }
