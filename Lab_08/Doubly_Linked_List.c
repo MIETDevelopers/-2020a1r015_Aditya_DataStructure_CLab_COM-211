@@ -10,7 +10,7 @@ struct node
     struct node *next;
     struct node *prev;
 } *head = NULL;
-int Lsearch(int data)
+int linear_search(int data)
 {
     struct node *traverse = head;
     int position = -1;
@@ -56,7 +56,7 @@ void insert(int element)
 int delete (int element)
 {
     int removed = INT_MIN;
-    int pos = Lsearch(element);
+    int pos = linear_search(element);
     if (pos != -1)
     {
         // *Deleting head node(special case cus we need to shift head)
@@ -216,14 +216,14 @@ int main()
                 printf("Invalid Input!!\n");
                 return 0;
             }
-            int temp = Lsearch(e);
+            int temp = linear_search(e);
             if (temp != -1)
             {
-                printf("Found at Pos:%d\n", temp);
+                printf("\nFound at Pos:%d\n", temp);
             }
             else
             {
-                printf("Not Found.");
+                printf("\nNot Found.\n");
             }
             break;
 
